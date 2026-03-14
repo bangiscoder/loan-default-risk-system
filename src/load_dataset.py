@@ -1,5 +1,5 @@
 from ucimlrepo import fetch_ucirepo
-import pandas as pd
+import pandas as pd # type: ignore
 
 dataset = fetch_ucirepo(id=144)
 
