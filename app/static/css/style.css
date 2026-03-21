@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.hero-section {
+    min-height: 50vh;
+    width: 100%;
+    background: linear-gradient(rgba(13, 110, 253, 0.85), rgba(13, 110, 253, 0.65)),
+                url("https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1400&q=80");
+    background-size: cover;
+    background-position: center;
+    padding: 60px 0;
+}
+
+.hero-content h1 {
+    line-height: 1.2;
+}
+
+.hero-image-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-placeholder {
+    width: 260px;
+    height: 260px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    backdrop-filter: blur(6px);
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+.result-box {
+    background: #eef4ff;
+    border-left: 5px solid #0d6efd;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.btn-primary {
+    border-radius: 10px;
+    padding: 12px;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    .image-placeholder {
+        width: 220px;
+        height: 220px;
+        margin: 0 auto;
+    }
+}

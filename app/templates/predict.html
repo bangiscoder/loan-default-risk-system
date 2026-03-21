@@ -1,0 +1,427 @@
+<!-- ========================================= -->
+<!-- Loan Default Risk Prediction - Full Form -->
+<!-- ========================================= -->
+<!-- This page:
+     1. Shows project branding and hero section
+     2. Collects ALL borrower fields used by the model
+     3. Calculates monthly repayment automatically
+     4. Shows prediction result and explanation
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic meta settings -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title -->
+    <title>Loan Default Risk Predictor</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- HERO SECTION -->
+    <!-- ========================================= -->
+    <section class="hero-section d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center g-4">
+
+                <!-- Left side: project description -->
+                <div class="col-lg-7">
+                    <span class="badge bg-light text-dark mb-3 px-3 py-2">
+                        3MTT Mentorship Project
+                    </span>
+
+                    <h1 class="display-5 fw-bold text-white">
+                        Loan Default Risk Prediction System
+                    </h1>
+
+                    <p class="lead text-white-50 mt-3">
+                        A machine learning-powered web application that estimates the likelihood
+                        of loan default based on borrower information.
+                    </p>
+
+                    <p class="text-white mb-1">
+                        <strong>Developer:</strong> Babangida Yohanna
+                    </p>
+
+                    <p class="text-white mb-1">
+                        Built as a <strong>3MTT Mentorship Project</strong> in collaboration between
+                        <strong>3MTT Nigeria</strong> and <strong>WESOnline</strong>.
+                    </p>
+
+                    <p class="text-white-50 mb-0">
+                        This MVP uses a public credit dataset for demonstration and will later be improved
+                        for Nigerian microcredit realities.
+                    </p>
+                </div>
+
+                <!-- Right side: picture placeholder -->
+                <div class="col-lg-5">
+                    <div class="hero-image-card text-center">
+                        <div class="image-placeholder">
+                            <img src="C:\Users\Welcome Sir\Desktop\BANGIS\3MTT Mentorship 2026\loan-default-risk-system\app\static\images\babangida_picture.jpg" alt="Babangida Yohanna" class="img-fluid rounded-circle">
+                            <!-- <span>Your Picture</span> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- MAIN FORM SECTION -->
+    <!-- ========================================= -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <div class="card-body p-4 p-md-5">
+
+                            <!-- Form title -->
+                            <h2 class="text-center mb-2">Full Borrower Assessment Form</h2>
+                            <p class="text-center text-muted mb-4">
+                                This form captures all key fields used by the model for prediction.
+                            </p>
+
+                            <!-- ========================================= -->
+                            <!-- PREDICTION FORM START -->
+                            <!-- ========================================= -->
+                            <form action="/predict" method="post" id="predictionForm">
+                                <div class="row">
+
+                                    <!-- 1. Checking Account Status -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Checking Account Balance Band</label>
+                                        <select name="checking_account_status" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A11">Below ₦0</option>
+                                            <option value="A12">₦0 to ₦200</option>
+                                            <option value="A13">₦200 or more</option>
+                                            <option value="A14">No checking account</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Balance band of the borrower’s checking account.
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. Duration -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Repayment Duration (months)</label>
+                                        <input type="number" name="duration" id="duration" class="form-control" min="1" required>
+                                        <div class="form-text">
+                                            Number of months the borrower is expected to repay the loan.
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Credit History -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Credit History</label>
+                                        <select name="credit_history" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A30">No credits taken / all paid back</option>
+                                            <option value="A31">All previous credits at this bank paid back duly</option>
+                                            <option value="A32">Existing credits paid back duly till now</option>
+                                            <option value="A33">Delay in paying off in the past</option>
+                                            <option value="A34">Critical account / other credits existing</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Borrower’s past repayment behaviour.
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Purpose -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Loan Purpose</label>
+                                        <select name="purpose" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A40">Car (new)</option>
+                                            <option value="A41">Car (used)</option>
+                                            <option value="A42">Furniture / Equipment</option>
+                                            <option value="A43">Radio / TV</option>
+                                            <option value="A44">Domestic Appliances</option>
+                                            <option value="A45">Repairs</option>
+                                            <option value="A46">Education</option>
+                                            <option value="A47">Vacation</option>
+                                            <option value="A48">Retraining</option>
+                                            <option value="A49">Business</option>
+                                            <option value="A410">Others</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Main reason the borrower wants the loan.
+                                        </div>
+                                    </div>
+
+                                    <!-- 5. Credit Amount -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Loan Amount (₦)</label>
+                                        <input type="number" name="credit_amount" id="credit_amount" class="form-control" min="1000" required>
+                                        <div class="form-text">
+                                            Total loan amount requested, entered in Nigerian Naira for demonstration.
+                                        </div>
+                                    </div>
+
+                                    <!-- Monthly Repayment Auto Calculation -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Estimated Monthly Repayment (₦)</label>
+                                        <input type="text" id="monthly_repayment" class="form-control" readonly>
+                                        <div class="form-text">
+                                            Automatically calculated as Loan Amount ÷ Repayment Duration.
+                                        </div>
+                                    </div>
+
+                                    <!-- 6. Savings Account -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Savings Balance Band</label>
+                                        <select name="savings_account" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A61">Below ₦100</option>
+                                            <option value="A62">₦100 to ₦500</option>
+                                            <option value="A63">₦500 to ₦1,000</option>
+                                            <option value="A64">₦1,000 or more</option>
+                                            <option value="A65">Unknown / no savings account</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Savings band of the borrower.
+                                        </div>
+                                    </div>
+
+                                    <!-- 7. Employment Since -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Employment Duration</label>
+                                        <select name="employment_since" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A71">Unemployed</option>
+                                            <option value="A72">Less than 1 year</option>
+                                            <option value="A73">1 to 4 years</option>
+                                            <option value="A74">4 to 7 years</option>
+                                            <option value="A75">7 years or more</option>
+                                        </select>
+                                        <div class="form-text">
+                                            How long the borrower has been employed.
+                                        </div>
+                                    </div>
+
+                                    <!-- 8. Installment Rate -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Installment Rate Category</label>
+                                        <input type="number" name="installment_rate" class="form-control" min="1" max="4" required>
+                                        <div class="form-text">
+                                            Original model category from the dataset. Allowed values: 1 to 4.
+                                        </div>
+                                    </div>
+
+                                    <!-- 9. Personal Status and Sex -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Personal Status / Sex</label>
+                                        <select name="personal_status_sex" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A91">Male: divorced / separated</option>
+                                            <option value="A92">Female: divorced / separated / married</option>
+                                            <option value="A93">Male: single</option>
+                                            <option value="A94">Male: married / widowed</option>
+                                            <option value="A95">Female: single</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Combined demographic category from the dataset.
+                                        </div>
+                                    </div>
+
+                                    <!-- 10. Other Debtors / Guarantors -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Other Debtors / Guarantors</label>
+                                        <select name="other_debtors" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A101">None</option>
+                                            <option value="A102">Co-applicant</option>
+                                            <option value="A103">Guarantor</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Whether another person supports the loan obligation.
+                                        </div>
+                                    </div>
+
+                                    <!-- 11. Present Residence Since -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Years at Current Residence</label>
+                                        <input type="number" name="present_residence_since" class="form-control" min="1" max="4" required>
+                                        <div class="form-text">
+                                            Original model category from the dataset. Allowed values: 1 to 4.
+                                        </div>
+                                    </div>
+
+                                    <!-- 12. Property -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Property Type</label>
+                                        <select name="property" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A121">Real estate</option>
+                                            <option value="A122">Savings agreement / life insurance</option>
+                                            <option value="A123">Car or other property</option>
+                                            <option value="A124">Unknown / no property</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Main property asset associated with the borrower.
+                                        </div>
+                                    </div>
+
+                                    <!-- 13. Age -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Age</label>
+                                        <input type="number" name="age" class="form-control" min="18" required>
+                                        <div class="form-text">
+                                            Borrower’s age in years.
+                                        </div>
+                                    </div>
+
+                                    <!-- 14. Other Installment Plans -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Other Installment Plans</label>
+                                        <select name="other_installment_plans" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A141">Bank</option>
+                                            <option value="A142">Stores</option>
+                                            <option value="A143">None</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Any other active installment arrangement.
+                                        </div>
+                                    </div>
+
+                                    <!-- 15. Housing -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Housing</label>
+                                        <select name="housing" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A151">Own house</option>
+                                            <option value="A152">Rent</option>
+                                            <option value="A153">Free housing</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Borrower’s housing situation.
+                                        </div>
+                                    </div>
+
+                                    <!-- 16. Existing Credits -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Number of Existing Credits</label>
+                                        <input type="number" name="existing_credits" class="form-control" min="0" required>
+                                        <div class="form-text">
+                                            Number of other credits currently being managed.
+                                        </div>
+                                    </div>
+
+                                    <!-- 17. Job -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Job Category</label>
+                                        <select name="job" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A171">Unskilled / non-resident</option>
+                                            <option value="A172">Unskilled / resident</option>
+                                            <option value="A173">Skilled employee / official</option>
+                                            <option value="A174">Highly skilled / management / self-employed</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Employment skill category of the borrower.
+                                        </div>
+                                    </div>
+
+                                    <!-- 18. People Liable -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Number of People Financially Dependent on Borrower</label>
+                                        <input type="number" name="people_liable" class="form-control" min="0" required>
+                                        <div class="form-text">
+                                            Number of people the borrower is financially responsible for.
+                                        </div>
+                                    </div>
+
+                                    <!-- 19. Telephone -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Telephone Access</label>
+                                        <select name="telephone" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A191">No telephone</option>
+                                            <option value="A192">Has telephone</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Indicates whether the borrower has access to a telephone.
+                                        </div>
+                                    </div>
+
+                                    <!-- 20. Foreign Worker -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Foreign Worker</label>
+                                        <select name="foreign_worker" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="A201">Yes</option>
+                                            <option value="A202">No</option>
+                                        </select>
+                                        <div class="form-text">
+                                            Original dataset category retained for MVP completeness.
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="d-grid mt-3">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        Predict Risk
+                                    </button>
+                                </div>
+                            </form>
+                            <!-- ========================================= -->
+                            <!-- PREDICTION FORM END -->
+                            <!-- ========================================= -->
+
+                            <!-- ========================================= -->
+                            <!-- RESULT SECTION -->
+                            <!-- ========================================= -->
+                            <div class="result-box mt-4">
+                                <h4 class="mb-3">Prediction Result</h4>
+
+                                {% if prediction_text %}
+                                    <p class="mb-2"><strong>Outcome:</strong> {{ prediction_text }}</p>
+                                {% else %}
+                                    <p class="mb-2 text-muted">
+                                        No prediction yet. Submit the form to see the result here.
+                                    </p>
+                                {% endif %}
+
+                                {% if explanation_text %}
+                                    <p class="mb-0">
+                                        <strong>How the system arrived at this result:</strong> {{ explanation_text }}
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <!-- MVP Disclaimer -->
+                            <div class="alert alert-warning mt-3">
+                                <strong>Note:</strong> This MVP uses a public credit dataset.
+                                Amounts are displayed in Nigerian Naira for local understanding,
+                                but the current model has not yet been trained on Nigerian microcredit data.
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
